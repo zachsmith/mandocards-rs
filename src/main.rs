@@ -65,7 +65,7 @@ fn create_note_entry(note: &MandolinNote) -> String {
   let frets_to_string_names: &Vec<String> = &note.frets.iter().map(|f| { f.replace("4-", "G-").replace("3-", "D-").replace("2-", "A-").replace("1-", "E-") }).collect();
   let fret_names: &String = &frets_to_string_names.join(", ");
 
-  return format!(r#"
+  format!(r#"
     \book {{
       \bookOutputName "{note_name}"
       \bookOutputSuffix "front"
@@ -102,5 +102,5 @@ fn create_note_entry(note: &MandolinNote) -> String {
         }}
       }}
     }}
-  "#);
+  "#)
 }
