@@ -1,0 +1,482 @@
+[
+    {
+        "name": "G3",
+        "value": "g",
+        "frets": [
+            "4-0"
+        ]
+    },
+    {
+        "name": "G#3",
+        "value": "gis",
+        "frets": [
+            "4-1"
+        ]
+    },
+    {
+        "name": "Ab3",
+        "value": "aes",
+        "frets": [
+            "4-1"
+        ]
+    },
+    {
+        "name": "A3",
+        "value": "a",
+        "frets": [
+            "4-2"
+        ]
+    },
+    {
+        "name": "A#3",
+        "value": "ais",
+        "frets": [
+            "4-3"
+        ]
+    },
+    {
+        "name": "Bb3",
+        "value": "bes",
+        "frets": [
+            "4-3"
+        ]
+    },
+    {
+        "name": "B3",
+        "value": "b",
+        "frets": [
+            "4-4"
+        ]
+    },
+    {
+        "name": "C4",
+        "value": "c'",
+        "frets": [
+            "4-5"
+        ]
+    },
+    {
+        "name": "C#4",
+        "value": "cis'",
+        "frets": [
+            "4-5"
+        ]
+    },
+    {
+        "name": "Db4",
+        "value": "des'",
+        "frets": [
+            "4-6"
+        ]
+    },
+    {
+        "name": "D4",
+        "value": "d'",
+        "frets": [
+            "4-7",
+            "3-0"
+        ]
+    },
+    {
+        "name": "D#4",
+        "value": "dis'",
+        "frets": [
+            "4-8"
+        ]
+    },
+    {
+        "name": "Eb4",
+        "value": "ees'",
+        "frets": [
+            "4-8"
+        ]
+    },
+    {
+        "name": "E4",
+        "value": "e'",
+        "frets": [
+            "4-9"
+        ]
+    },
+    {
+        "name": "F4",
+        "value": "f'",
+        "frets": [
+            "4-10",
+            "3-3"
+        ]
+    },
+    {
+        "name": "F#4",
+        "value": "fis'",
+        "frets": [
+            "4-11",
+            "3-4"
+        ]
+    },
+    {
+        "name": "Gb4",
+        "value": "ges'",
+        "frets": [
+            "4-11",
+            "3-4"
+        ]
+    },
+    {
+        "name": "G4",
+        "value": "g'",
+        "frets": [
+            "4-12",
+            "3-5"
+        ]
+    },
+    {
+        "name": "G#4",
+        "value": "gis'",
+        "frets": [
+            "4-13",
+            "3-6"
+        ]
+    },
+    {
+        "name": "Ab4",
+        "value": "aes'",
+        "frets": [
+            "4-13",
+            "3-6"
+        ]
+    },
+    {
+        "name": "A4",
+        "value": "a'",
+        "frets": [
+            "4-14",
+            "3-7",
+            "2-0"
+        ]
+    },
+    {
+        "name": "A#4",
+        "value": "ais'",
+        "frets": [
+            "4-15",
+            "3-8"
+        ]
+    },
+    {
+        "name": "Bb4",
+        "value": "bes'",
+        "frets": [
+            "4-15",
+            "3-8"
+        ]
+    },
+    {
+        "name": "B4",
+        "value": "b'",
+        "frets": [
+            "4-16",
+            "3-9",
+            "2-2"
+        ]
+    },
+    {
+        "name": "C5",
+        "value": "c''",
+        "frets": [
+            "4-17",
+            "3-10",
+            "2-3"
+        ]
+    },
+    {
+        "name": "C#5",
+        "value": "cis''",
+        "frets": [
+            "4-18",
+            "3-11",
+            "2-4"
+        ]
+    },
+    {
+        "name": "Db5",
+        "value": "des''",
+        "frets": [
+            "4-18",
+            "3-11",
+            "2-4"
+        ]
+    },
+    {
+        "name": "D5",
+        "value": "d''",
+        "frets": [
+            "4-19",
+            "3-12",
+            "2-5"
+        ]
+    },
+    {
+        "name": "D#5",
+        "value": "dis''",
+        "frets": [
+            "4-20",
+            "3-13",
+            "2-6"
+        ]
+    },
+    {
+        "name": "Eb5",
+        "value": "ees''",
+        "frets": [
+            "4-20",
+            "3-13",
+            "2-6"
+        ]
+    },
+    {
+        "name": "E5",
+        "value": "e''",
+        "frets": [
+            "3-14",
+            "2-7",
+            "1-0"
+        ]
+    },
+    {
+        "name": "F5",
+        "value": "f''",
+        "frets": [
+            "3-15",
+            "2-1"
+        ]
+    },
+    {
+        "name": "F#5",
+        "value": "fis''",
+        "frets": [
+            "3-16",
+            "2-2"
+        ]
+    },
+    {
+        "name": "Gb5",
+        "value": "ges''",
+        "frets": [
+            "3-16",
+            "2-2"
+        ]
+    },
+    {
+        "name": "G5",
+        "value": "g''",
+        "frets": [
+            "3-17",
+            "2-10",
+            "1-3"
+        ]
+    },
+    {
+        "name": "G#5",
+        "value": "gis''",
+        "frets": [
+            "3-18",
+            "2-11",
+            "1-4"
+        ]
+    },
+    {
+        "name": "Ab5",
+        "value": "aes''",
+        "frets": [
+            "3-18",
+            "2-11",
+            "1-4"
+        ]
+    },
+    {
+        "name": "A5",
+        "value": "a''",
+        "frets": [
+            "3-19",
+            "2-12",
+            "1-5"
+        ]
+    },
+    {
+        "name": "A#5",
+        "value": "ais''",
+        "frets": [
+            "3-20",
+            "2-13",
+            "1-4"
+        ]
+    },
+    {
+        "name": "Bb5",
+        "value": "bes''",
+        "frets": [
+            "3-20",
+            "2-13",
+            "1-4"
+        ]
+    },
+    {
+        "name": "B5",
+        "value": "b''",
+        "frets": [
+            "2-14",
+            "1-7"
+        ]
+    },
+    {
+        "name": "C6",
+        "value": "c'''",
+        "frets": [
+            "2-15",
+            "1-8"
+        ]
+    },
+    {
+        "name": "C#6",
+        "value": "cis'''",
+        "frets": [
+            "2-16",
+            "1-9"
+        ]
+    },
+    {
+        "name": "Db6",
+        "value": "des'''",
+        "frets": [
+            "2-16",
+            "1-9"
+        ]
+    },
+    {
+        "name": "D6",
+        "value": "d'''",
+        "frets": [
+            "4-19",
+            "2-17",
+            "1-10"
+        ]
+    },
+    {
+        "name": "D#6",
+        "value": "dis'''",
+        "frets": [
+            "4-20",
+            "2-18",
+            "1-11"
+        ]
+    },
+    {
+        "name": "Eb6",
+        "value": "ees'''",
+        "frets": [
+            "4-20",
+            "2-18",
+            "1-11"
+        ]
+    },
+    {
+        "name": "E6",
+        "value": "e'''",
+        "frets": [
+            "2-19",
+            "1-12"
+        ]
+    },
+    {
+        "name": "F6",
+        "value": "f'",
+        "clef": "treble_8",
+        "frets": [
+            "2-20",
+            "1-13"
+        ]
+    },
+    {
+        "name": "F#6",
+        "value": "fis'",
+        "clef": "treble_8",
+        "frets": [
+            "2-21",
+            "1-14"
+        ]
+    },
+    {
+        "name": "Gb6",
+        "value": "ges'",
+        "clef": "treble_8",
+        "frets": [
+            "2-21",
+            "1-14"
+        ]
+    },
+    {
+        "name": "G6",
+        "value": "g'",
+        "clef": "treble_8",
+        "frets": [
+            "1-15"
+        ]
+    },
+    {
+        "name": "G#6",
+        "value": "gis'",
+        "clef": "treble_8",
+        "frets": [
+            "1-16"
+        ]
+    },
+    {
+        "name": "Ab6",
+        "value": "aes'",
+        "clef": "treble_8",
+        "frets": [
+            "1-16"
+        ]
+    },
+    {
+        "name": "A6",
+        "value": "a'",
+        "clef": "treble_8",
+        "frets": [
+            "1-17"
+        ]
+    },
+    {
+        "name": "A#6",
+        "value": "ais'",
+        "clef": "treble_8",
+        "frets": [
+            "1-18"
+        ]
+    },
+    {
+        "name": "Bb6",
+        "value": "bes'",
+        "clef": "treble_8",
+        "frets": [
+            "1-18"
+        ]
+    },
+    {
+        "name": "B6",
+        "value": "b'",
+        "clef": "treble_8",
+        "frets": [
+            "1-19"
+        ]
+    },
+    {
+        "name": "C7",
+        "value": "c''",
+        "clef": "treble_8",
+        "frets": [
+            "1-20"
+        ]
+    }
+]
