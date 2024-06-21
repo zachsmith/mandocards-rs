@@ -1,11 +1,11 @@
 //use genanki_rs::{Note, Error};
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 use std::fs::File;
 use std::io::{self, Write, BufReader, Error };
 use clap::Parser;
 use std::path::PathBuf;
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize)]
 struct MandolinNote {
   name: String,
   value: String,
