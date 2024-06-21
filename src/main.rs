@@ -7,36 +7,36 @@ use std::path::PathBuf;
 
 #[derive(Deserialize, Serialize)]
 struct MandolinNote {
-    name: String,
-    value: String,
-    frets: Vec<String>,
-    clef: Option<String>
+  name: String,
+  value: String,
+  frets: Vec<String>,
+  clef: Option<String>
 }
 
 #[derive(Parser)]
 struct Cli {
-    #[arg(short, long, default_value="mandolin.json")]
-    input: PathBuf,
-    
-    #[arg(short, long, default_value="-")]
-    output: PathBuf,
+  #[arg(short, long, default_value="mandolin.json")]
+  input: PathBuf,
+
+  #[arg(short, long, default_value="-")]
+  output: PathBuf,
 }
 
 fn main() -> Result<(), Error> {
-    let args = Cli::parse();
-    let input = File::open(args.input)?;
-    let reader = BufReader::new(input);
-    let output_file_path: &PathBuf = &args.output;
+  let args = Cli::parse();
+  let input = File::open(args.input)?;
+  let reader = BufReader::new(input);
+  let output_file_path: &PathBuf = &args.output;
 
-    // Deserialize the mandolin definition into Vector of MandolinNote
-    let mandolin: Vec<MandolinNote>= serde_json::from_reader(reader)?;
+  // Deserialize the mandolin definition into Vector of MandolinNote
+  let mandolin: Vec<MandolinNote>= serde_json::from_reader(reader)?;
 
-    let mut output = match try_get_output_writer(output_file_path) {
-        Ok(writer) => writer,
-        Err(e) => panic!("Could not create output writer: {e:?}"),
-    };
+  let mut output = match try_get_output_writer(output_file_path) {
+      Ok(writer) => writer,
+      Err(e) => panic!("Could not create output writer: {e:?}"),
+  };
 
-    write!(output, "{}", create_score("\\version \"2.24.1\"", &mandolin))
+  write!(output, "{}", create_score("\\version \"2.24.1\"", &mandolin))
 }
 
 fn create_score(header: &str, mandolin: &Vec<MandolinNote>) -> String {
