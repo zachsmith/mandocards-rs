@@ -33,7 +33,7 @@ fn main() -> Result<(), Error> {
 
     let mut output = match try_get_output_writer(output_file_path) {
         Ok(writer) => writer,
-        Err(e) => panic!("Error: {e:?}"),
+        Err(e) => panic!("Could not create output writer: {e:?}"),
     };
 
     write!(output, "{}", create_score("\\version \"2.24.1\"", &mandolin))
