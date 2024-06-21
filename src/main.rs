@@ -35,15 +35,12 @@ fn main() -> Result<(), Error> {
         Ok(writer) => writer,
         Err(e) => panic!("Error: {e:?}"),
     };
-    
-    write!(output, "{}", create_score("\\version \"2.24.1\"", &mandolin))
-      .expect("Could not save score");
 
-    Ok(())
+    write!(output, "{}", create_score("\\version \"2.24.1\"", &mandolin))
 }
 
 fn create_score(header: &str, mandolin: &Vec<MandolinNote>) -> String {
-  return mandolin.iter().fold(String::from(header), |notes, note| notes + &create_note_entry(note));
+  mandolin.iter().fold(String::from(header), |notes, note| notes + &create_note_entry(note))
 }
 
 fn try_get_output_writer(output_file_name: &PathBuf) -> Result<Box<dyn Write>, Error> {
