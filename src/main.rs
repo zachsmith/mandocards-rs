@@ -43,27 +43,25 @@ fn create_score(header: &str, mandolin: &Vec<MandolinNote>) -> String {
   mandolin.iter().fold(String::from(header), |notes, note| notes + &create_note_entry(note))
 }
 
-fn try_get_output_writer(output_file_name: &PathBuf) -> Result<Box<dyn Write>, Error> {
-  if *output_file_name == PathBuf::from("-") {
+fn try_get_output_writer(output_file_path: &PathBuf) -> Result<Box<dyn Write>, Error> {
+  if *output_file_path == PathBuf::from("-") {
     Ok(Box::new(io::stdout().lock()) as Box<dyn Write>)
   } else {
-    File::create(output_file_name).map(|f| Box::new(f) as Box<dyn Write>)
+    File::create(output_file_path).map(|f| Box::new(f) as Box<dyn Write>)
   }
 }
 
 fn create_note_entry(note: &MandolinNote) -> String {
-  const DEFAULT_CLEF: &str = "treble";
-
-  let note_name: &String = &note.name;
-  let clef: &String = match &note.clef {
+  let note_name: &str = &note.name;
+  let clef: &str = match &note.clef {
     Some(c) => c,
-    _ => &DEFAULT_CLEF.to_string()
+    _ => "treble"
   };
-  let note_value: &String = &note.value;
-  let note_name_as_accidental: &String = &note_name.replace("b", "\\super \\flat").replace("#", "\\super \\sharp");
-  let fret_diagram: &String = &note.frets.iter().fold(String::new(), |frets: String, f: &String| frets + f + ";");
+  let note_value: &str = &note.value;
+  let note_name_as_accidental: &str = &note_name.replace("b", "\\super \\flat").replace("#", "\\super \\sharp");
+  let fret_diagram: &str = &note.frets.iter().fold(String::new(), |frets: String, f: &String| frets + f + ";");
   let frets_to_string_names: &Vec<String> = &note.frets.iter().map(|f| { f.replace("4-", "G-").replace("3-", "D-").replace("2-", "A-").replace("1-", "E-") }).collect();
-  let fret_names: &String = &frets_to_string_names.join(", ");
+  let fret_names: &str = &frets_to_string_names.join(", ");
 
   format!(r#"
     \book {{
