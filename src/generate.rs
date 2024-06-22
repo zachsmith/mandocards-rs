@@ -1,7 +1,7 @@
 use serde::Deserialize;
 use std::fs::File;
 use std::io::{self, BufReader, Error, Write};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 #[derive(Deserialize)]
 struct MandolinNote {
@@ -11,20 +11,21 @@ struct MandolinNote {
     clef: Option<String>,
 }
 
-pub fn score(input_file_path: &PathBuf, output_file_path: &PathBuf) -> Result<(), Error> {
-    let input = File::open(input_file_path)?;
+pub fn score(input: &Path, output: &Path) -> Result<(), Error> {
+    let input = File::open(input)?;
     let reader = BufReader::new(input);
+    // let output_file_path = output.join(score);
 
     // Deserialize the mandolin definition into Vector of MandolinNote
     let mandolin: Vec<MandolinNote> = serde_json::from_reader(reader)?;
 
-    let mut output = match try_get_output_writer(output_file_path) {
+    let mut score_writer = match try_get_output_writer(output) {
         Ok(writer) => writer,
         Err(e) => panic!("Could not create output writer: {e:?}"),
     };
 
     write!(
-        output,
+        score_writer,
         "{}",
         create_score("\\version \"2.24.1\"", &mandolin)
     )
@@ -36,11 +37,11 @@ fn create_score(header: &str, mandolin: &Vec<MandolinNote>) -> String {
     })
 }
 
-fn try_get_output_writer(output_file_path: &PathBuf) -> Result<Box<dyn Write>, Error> {
-    if *output_file_path == PathBuf::from("-") {
+fn try_get_output_writer(output: &Path) -> Result<Box<dyn Write>, Error> {
+    if output == &PathBuf::from("-") {
         Ok(Box::new(io::stdout().lock()) as Box<dyn Write>)
     } else {
-        File::create(output_file_path).map(|f| Box::new(f) as Box<dyn Write>)
+        File::create(output).map(|f| Box::new(f) as Box<dyn Write>)
     }
 }
 

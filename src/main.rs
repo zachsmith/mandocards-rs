@@ -1,4 +1,3 @@
-//use genanki_rs::{Note, Error};
 use clap::{Parser, Subcommand};
 use std::io::Error;
 use std::path::PathBuf;
@@ -9,9 +8,6 @@ mod generate;
 
 #[derive(Parser)]
 struct Cli {
-    #[arg(short, long, default_value = "target")]
-    directory: PathBuf,
-
     #[command(subcommand)]
     cmd: SubCommand,
 }
@@ -22,28 +18,30 @@ enum SubCommand {
         #[arg(short, long, default_value = "mandolin.json")]
         input: PathBuf,
 
-        #[arg(short, long, default_value = "-")]
+        #[arg(short, long, default_value = "output/lilypond/mandocard.ly")]
         output: PathBuf,
     },
-    Compile {},
-    Build {},
+    Compile {
+        #[arg(short, long, default_value = "output/lilypond/mandocard.ly")]
+        input: PathBuf,
+
+        #[arg(short, long, default_value = "output/anki")]
+        output: PathBuf,
+    },
+    Build {
+        #[arg(short, long, default_value = "output/anki")]
+        input: PathBuf,
+
+        #[arg(short, long, default_value = "output/anki/mandocard.apkg")]
+        output: PathBuf,
+    },
 }
 
 fn main() -> Result<(), Error> {
     let args = Cli::parse();
-
     match args.cmd {
-        SubCommand::Generate { input, output } => match generate::score(&input, &output) {
-            Ok(result) => Ok(result),
-            Err(e) => panic!("Generation error: {e:?}"),
-        },
-        SubCommand::Compile {} => match compile::images() {
-            Ok(result) => Ok(result),
-            Err(e) => panic!("Compilation error: {e:?}"),
-        },
-        SubCommand::Build {} => match build::deck() {
-            Ok(result) => Ok(result),
-            Err(e) => panic!("Build error: {e:?}"),
-        },
+        SubCommand::Generate { input, output } => generate::score(&input, &output),
+        SubCommand::Compile { input, output } => compile::images(&input, &output),
+        SubCommand::Build { input, output } => build::deck(&input, &output),
     }
 }
