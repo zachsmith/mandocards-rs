@@ -1,7 +1,6 @@
 use genanki_rs::{Deck, Error as AnkiError, Field, Model, Note, Package, Template};
 use std::fs;
-use std::ffi::OsStr;
-use std::io::Error;
+use std::io::{Error, ErrorKind};
 use std::path::{Path, PathBuf};
 
 // THIS IS A MESS!
@@ -32,57 +31,65 @@ fn get_images(input: &Path) -> Result<Vec<PathBuf>, Error> {
         .collect::<Vec<_>>())
 }
 
-fn paths_to_filename<'front, 'back>(pair: (&'front PathBuf, &'back PathBuf)) -> Result<(&'front OsStr, &'back OsStr), AnkiError> {
+fn error<T>(_m: &str, _e: T) -> AnkiError {
+    AnkiError::Io(Error::new(
+        std::io::ErrorKind::InvalidInput,
+        "Invalid value for '{_v}': {_e:?}",))
+}
+
+fn paths_to_filename<'front, 'back>(
+    pair: (&'front PathBuf, &'back PathBuf),
+) -> Result<(&'front str, &'back str), AnkiError> {
+
     let front = match pair.0.file_name() {
-        Some(f) => f,
-        None => {
-            return Err(AnkiError::Io(Error::new(
-                std::io::ErrorKind::InvalidInput,
-                "Invalid value for 'front': {f:?}",
-            )))
-        }
+        Some(f) => 
+            match f.to_str() {
+                Some(s) => s,
+                None => return Err(error("front", f))
+            }
+        None => { return Err(error("front", pair.0)); }
     };
 
     let back = match pair.1.file_name() {
+        Some(b) => 
+            match b.to_str() {
+                Some(s) => s,
+                None => { return Err(error("back", b)); }
+            }
+        None => { return Err(error("back", pair.1)); }
+    };
+
+
+    Ok((front, back))
+}
+
+fn paths_to_str<'a>(pair: (&'a PathBuf, &'a PathBuf)) -> Result<(&str, &str), AnkiError> {
+    let front = match pair.0.to_str() {
+        Some(f) => f, 
+        None => { return Err(error("front", pair.0)); }
+    };
+
+    let back = match pair.1.to_str() {
         Some(b) => b,
-        None => {
-            return Err(AnkiError::Io(Error::new(
-                std::io::ErrorKind::InvalidInput,
-                "Invalid value for 'back': {b:?}",
-            )))
-        }
+        None => { return Err(error("back", pair.1)); }
     };
 
     Ok((front, back))
 }
 
-fn paths_to_str<'a>(pair: (&'a PathBuf, &'a PathBuf)) -> Result<Vec<&str>, AnkiError> {
-    let front = match pair.0.to_str() {
-        Some(f) => f,
-        None => {
-            return Err(AnkiError::Io(Error::new(
-                std::io::ErrorKind::InvalidInput,
-                "Invalid value for 'front': {f:?}",
-            )))
-        }
-    };
-
-    let back = match pair.1.to_str() {
-        Some(b) => b,
-        None => {
-            return Err(AnkiError::Io(Error::new(
-                std::io::ErrorKind::InvalidInput,
-                "Invalid value for 'back': {b:?}",
-            )))
-        }
-    };
-
-    Ok(vec!(front, back))
-}
-
 fn make_package(input: &Path) -> Result<Package, AnkiError> {
     let images: Vec<PathBuf> = get_images(input)?;
+    let pairs = match create_pairs(&images) {
+        Some(p) => p,
+        None => {
+            return Err(AnkiError::Io(
+                Error::new(ErrorKind::InvalidInput, "No image files for deck"),
+            ))
+        }
+    };
 
+    let mut image_paths: Vec<&str> = Vec::new();
+    let mut deck = Deck::new(1234, "Mandolin", "Mandolin Notes & Frets");
     let mandocard_model = Model::new(
         1607392319, // TODO: figure out the correct value here
         "Mandocard",
@@ -92,19 +99,9 @@ fn make_package(input: &Path) -> Result<Package, AnkiError> {
             .afmt("{{Back}}")],
     );
 
-    let mut deck = Deck::new(1234, "Mandolin", "Mandolin Notes & Frets");
-
-    let pairs = create_pairs(&images)?;
-    let mut image_paths: Vec<&str> = vec![];
-
     for pair in pairs {
-        let (front, back) = match paths_to_filename(pair) {
-            Ok((f,b)) => (f,b),
-            Err(e) => return Err(e)
-        };
-     
-        // print so i can try to troubleshoot bugs with pairing
-        println!("{front:?} -> {back:?}");
+        let (front, back) = paths_to_filename(pair)?;
+
         deck.add_note(Note::new(
             mandocard_model.clone(),
             vec![
@@ -113,38 +110,38 @@ fn make_package(input: &Path) -> Result<Package, AnkiError> {
             ],
         )?);
 
-        match paths_to_str(pair) {
-            // there must be a better way to do this...
-            Ok(p) => for i in p { image_paths.push(i); println!("path: {}", i) },
-            Err(e) => return Err(e)
-        };
+        let (f_path, b_path) = paths_to_str(pair)?;
+
+        image_paths.push(f_path);
+        image_paths.push(b_path);
     }
 
-    Ok(Package::new(
-        vec![deck],
-        image_paths, //images.iter().map(|i| i.to_str().unwrap()).collect(),
-    )?)
+    Ok(Package::new(vec![deck], image_paths)?)
 }
 
 // this function is so janky...
-fn create_pairs(images: &Vec<PathBuf>) -> Result<Vec<(&PathBuf, &PathBuf)>, Error> {
-    // partition by "front" (...and assume "back")...sigh
-    // let (mut fronts, mut backs): (_, Vec<_>) =
-    //     images.into_iter().filter_map(|i| i.to_str()).partition(|i| i.contains("front"));
-
+fn create_pairs(images: &Vec<PathBuf>) -> Option<Vec<(&PathBuf, &PathBuf)>> {
+    // split the vector of paths into "fronts" and "backs" - assumes that all non-fronts are backs.
     let (mut fronts, mut backs): (_, Vec<_>) = images
         .into_iter()
-        .partition(|f| f.to_str().unwrap().contains("front"));
+        .partition(|f| { 
+            match f.to_str() {
+                Some(p) => p.contains("front"),
+                _ => false
+            }
+        });
 
     // sort the front and back so they're in the same order. blah.
     fronts.sort();
     backs.sort();
 
     // use the index of front to match the back. yuck...
-    let mut pairs: Vec<(&PathBuf, &PathBuf)> = vec![];
+    let mut pairs: Vec<(&PathBuf, &PathBuf)> = Vec::new();
     for (i, f) in fronts.iter().enumerate() {
         pairs.push((*f, backs[i]))
     }
 
-    Ok(pairs)
+    if pairs.is_empty() { return None; }
+    
+    Some(pairs)
 }
