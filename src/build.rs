@@ -89,9 +89,9 @@ fn make_package(input: &Path) -> Result<Package, AnkiError> {
     };
 
     let mut image_paths: Vec<&str> = Vec::new();
-    let mut deck = Deck::new(1234, "Mandolin", "Mandolin Notes & Frets");
+    let mut deck = Deck::new(73987, "Mandolin", "Mandolin Notes & Frets");
     let mandocard_model = Model::new(
-        1607392319, // TODO: figure out the correct value here
+        1719492951632,
         "Mandocard",
         vec![Field::new("Front"), Field::new("Back")],
         vec![Template::new("Mandolin Note")
