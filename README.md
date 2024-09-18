@@ -8,11 +8,12 @@ Requires `lilypond` application to be installed on the system for notation and f
 Does not require `Anki` application to be installed for building, but does for viewing.
 
 Deck is published on AnkiWeb ([link](https://ankiweb.net/shared/info/1820555408)).
+
 ## Commands:
 
 **generate**: will create the Lilypond score file: `output/lilypond/mandocard.ly`
 
-**compile**: (currently does not work; instead run the lilypond command directly from within the `output/lilypond` folder) ` lilypond --png -d crop="#t" -d resolution="400" -dno-print-pages --output ../anki/mandocard.ly`
+**compile**: (currently does not work; instead run the lilypond command directly from within the `output/lilypond` folder) ` lilypond --png -d crop="#t" -d resolution="400" -dno-print-pages ../anki/mandocard.ly`
 
 **build**: will generate the anki deck file which can be imported into `Anki`: `output/anki/mandocard.apkg`
 
